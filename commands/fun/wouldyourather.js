@@ -14,7 +14,7 @@ module.exports = {
       }
       const parts = data.question.split(" or ");
       const embed = new EmbedBuilder()
-        .setTitle("<:thinking:1461961504248172584> Would You Rather")
+        .setTitle("🤔 Would You Rather")
         .setDescription(
           parts.length === 2
             ? `**A)** ${parts[0].replace("Would you rather ", "")}\n\n**B)** ${parts[1].replace("?", "")}`
