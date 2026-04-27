@@ -97,18 +97,16 @@ async function handleCreate(interaction, client) {
 
     // Send the ticket welcome embed
     const ticketEmbed = new EmbedBuilder()
-      .setTitle('Ticket Created')
-      .setDescription(
-        `Welcome <@${userId}>!\n\n` +
-        'A staff member will be with you shortly.\n' +
-        'Please describe your issue in detail.\n\n' +
-        '**Commands:**\n' +
-        '`/ticket close` — Close this ticket\n' +
-        '`/ticket add` — Add a user\n' +
-        '`/ticket remove` — Remove a user'
+      .setAuthor({ name: 'Support Ticket Created', iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+      .setDescription(`Hello <@${userId}>, welcome to your support ticket!`)
+      .addFields(
+        { name: '🎫 Ticket Information', value: `**Creator:** <@${userId}>\n**Category:** <#${config.ticket_category_id}>`, inline: true },
+        { name: '🕒 Details', value: `**Opened At:** <t:${Math.floor(Date.now() / 1000)}:R>\n**Status:** 🟢 Open`, inline: true },
+        { name: '📋 Instructions', value: 'Please explain your issue in detail. A staff member will be with you shortly. You can use the buttons below to manage this ticket.', inline: false }
       )
       .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
+      .setFooter({ text: 'Staff can claim this ticket below' })
       .setTimestamp();
 
     const ticketButtons = new ActionRowBuilder().addComponents(

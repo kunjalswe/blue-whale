@@ -40,21 +40,25 @@ function clearDraft(interaction) {
  */
 function buildSetupEmbed(draft) {
   return new EmbedBuilder()
-    .setTitle('Ticket System Setup')
-    .setDescription('Use the select menu below to configure each option. Select **Finish Setup** when done.')
+    .setAuthor({ name: 'Ticket System Setup', iconURL: 'https://cdn.dribbble.com/userupload/32130511/file/original-a5ae53cfdc4bf822c6e5afc90f4c8660.png?resize=752x&vertical=center' })
+    .setDescription('Configure your ticket system using the menu below. Once finished, click **Finish Setup** to deploy the panel.')
     .setColor(0x2B2D31)
     .addFields(
-      { name: 'Support Role', value: draft.support_role_id ? `<@&${draft.support_role_id}>` : '`Not set`', inline: true },
-      { name: 'Ticket Channel', value: draft.ticket_channel_id ? `<#${draft.ticket_channel_id}>` : '`Not set`', inline: true },
-      { name: 'Ticket Category', value: draft.ticket_category_id ? `<#${draft.ticket_category_id}>` : '`Not set`', inline: true },
-      { name: 'Title', value: `\`${draft.ticket_title}\``, inline: true },
-      { name: 'Description', value: draft.ticket_description.length > 100 ? `\`${draft.ticket_description.substring(0, 97)}...\`` : `\`${draft.ticket_description}\``, inline: true },
-      { name: 'Image', value: draft.ticket_image ? `[Link](${draft.ticket_image})` : '`Not set (optional)`', inline: true },
-      { name: 'Emoji', value: draft.ticket_emoji, inline: true },
-      { name: 'Log Channel', value: draft.log_channel_id ? `<#${draft.log_channel_id}>` : '`Not set`', inline: true },
+      { name: '📂 Infrastructure', value: `**Category:** ${draft.ticket_category_id ? `<#${draft.ticket_category_id}>` : '`Not set`'}\n**Channel:** ${draft.ticket_channel_id ? `<#${draft.ticket_channel_id}>` : '`Not set`'}\n**Logs:** ${draft.log_channel_id ? `<#${draft.log_channel_id}>` : '`Not set`'}`, inline: false },
+      { name: '👮 Staff Configuration', value: `**Support Role:** ${draft.support_role_id ? `<@&${draft.support_role_id}>` : '`Not set`'}`, inline: true },
+      { name: '🎨 Appearance', value: `**Emoji:** ${draft.ticket_emoji}\n**Image:** ${draft.ticket_image ? `[View Image](${draft.ticket_image})` : '`None`'}`, inline: true },
+      { name: '📝 Content', value: `**Title:** \`${draft.ticket_title}\`\n**Description:** \`${draft.ticket_description.length > 50 ? draft.ticket_description.substring(0, 47) + '...' : draft.ticket_description}\``, inline: false },
     )
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    .setFooter({ text: "Premium Ticket System • Modern Interface" })
     .setTimestamp();
+}
+
+function buildSetupButtons() {
+  return new ActionRowBuilder().addComponents(
+    new ButtonBuilder().setCustomId('ticket_setup_title').setLabel('Set Title').setStyle(ButtonStyle.Secondary).setEmoji('📝'),
+    new ButtonBuilder().setCustomId('ticket_setup_description').setLabel('Set Description').setStyle(ButtonStyle.Secondary).setEmoji('📄'),
+    new ButtonBuilder().setCustomId('ticket_setup_image').setLabel('Set Image').setStyle(ButtonStyle.Secondary).setEmoji('🖼️'),
+  );
 }
 
 /**
@@ -64,14 +68,11 @@ function buildSetupMenu() {
   return new ActionRowBuilder().addComponents(
     new StringSelectMenuBuilder()
       .setCustomId('ticket_setup_menu')
-      .setPlaceholder('⚙️ Select an option to configure')
+      .setPlaceholder('⚙️ More options / Finish setup')
       .addOptions([
         { label: 'Support Role', description: 'Set the support/staff role', value: 'support_role', emoji: '👮' },
         { label: 'Ticket Channel', description: 'Channel where the panel will be sent', value: 'ticket_channel', emoji: '📢' },
         { label: 'Ticket Category', description: 'Category for new ticket channels', value: 'ticket_category', emoji: '📂' },
-        { label: 'Ticket Title', description: 'Title on the ticket panel embed', value: 'ticket_title', emoji: '📝' },
-        { label: 'Ticket Description', description: 'Description on the ticket panel embed', value: 'ticket_description', emoji: '📄' },
-        { label: 'Ticket Image (Optional)', description: 'Image URL for the panel embed', value: 'ticket_image', emoji: '🖼️' },
         { label: 'Ticket Emoji', description: 'Emoji for the create button', value: 'ticket_emoji', emoji: '😀' },
         { label: 'Log Channel', description: 'Channel where transcripts are sent', value: 'log_channel', emoji: '📋' },
         { label: '✅ Finish Setup', description: 'Save config and send the panel', value: 'finish_setup', emoji: '✅' },
@@ -101,7 +102,7 @@ async function run(interaction) {
 
   await interaction.reply({
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
     ephemeral: true,
   });
 }
@@ -112,5 +113,6 @@ module.exports = {
   clearDraft,
   buildSetupEmbed,
   buildSetupMenu,
+  buildSetupButtons,
   setupDrafts,
 };

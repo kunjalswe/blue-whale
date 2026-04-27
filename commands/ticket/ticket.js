@@ -99,6 +99,8 @@ module.exports = {
         // ── Buttons ──
         if (interaction.isButton()) {
           const { handleCreate, handleClaim, handleClose, handleCloseConfirm, handleCloseCancel, handleResetConfirm, handleResetCancel } = require('./handlers/buttonHandler.js');
+          const selectHandler = require('./handlers/selectHandler.js');
+
           switch (id) {
             case 'ticket_create': return await handleCreate(interaction, client);
             case 'ticket_claim': return await handleClaim(interaction, client);
@@ -107,6 +109,11 @@ module.exports = {
             case 'ticket_close_cancel': return await handleCloseCancel(interaction, client);
             case 'ticket_reset_confirm': return await handleResetConfirm(interaction, client);
             case 'ticket_reset_cancel': return await handleResetCancel(interaction, client);
+
+            // Setup Buttons
+            case 'ticket_setup_title': return await selectHandler.showTitleModal(interaction);
+            case 'ticket_setup_description': return await selectHandler.showDescModal(interaction);
+            case 'ticket_setup_image': return await selectHandler.showImageModal(interaction);
           }
         }
 
@@ -146,7 +153,7 @@ module.exports = {
           } else {
             await interaction.reply(reply);
           }
-        } catch {}
+        } catch { }
       }
     });
 

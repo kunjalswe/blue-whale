@@ -115,7 +115,7 @@ async function executeReset(interaction, client) {
       .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
       .setTimestamp();
 
-    await interaction.editReply({ embeds: [doneEmbed], components: [] });
+    await interaction.editReply({ embeds: [successEmbed], components: [] });
   } catch (err) {
     console.error('[Ticket Reset] Error:', err);
     await interaction.editReply({

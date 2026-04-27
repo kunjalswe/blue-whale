@@ -11,7 +11,7 @@ const {
   TextInputStyle,
 } = require('discord.js');
 const { getDB } = require('../../../Database/database.js');
-const { getDraft, clearDraft, buildSetupEmbed, buildSetupMenu } = require('../ticketsetup.js');
+const { getDraft, clearDraft, buildSetupEmbed, buildSetupMenu, buildSetupButtons } = require('../ticketsetup.js');
 
 /**
  * Safely update the setup panel message.
@@ -24,7 +24,7 @@ async function safeUpdateSetup(interaction, payload) {
     // but it can be unreliable — try it first, fall back gracefully
     if (interaction.isModalSubmit()) {
       if (interaction.isFromMessage()) {
-        await interaction.deferUpdate().catch(() => {});
+        await interaction.deferUpdate().catch(() => { });
         await interaction.editReply(payload);
       } else {
         // Modal wasn't from a message component — reply ephemerally instead
@@ -40,9 +40,9 @@ async function safeUpdateSetup(interaction, payload) {
       if (!interaction.replied && !interaction.deferred) {
         await interaction.reply({ ...payload, ephemeral: true });
       } else {
-        await interaction.editReply(payload).catch(() => {});
+        await interaction.editReply(payload).catch(() => { });
       }
-    } catch {}
+    } catch { }
   }
 }
 
@@ -101,7 +101,7 @@ async function handleRoleSelect(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -147,7 +147,7 @@ async function handleChannelSelect(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -180,7 +180,7 @@ async function handleTitleModal(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -197,7 +197,7 @@ async function showDescModal(interaction) {
     .setPlaceholder('e.g. Click the button below to open a support ticket.')
     .setValue(draft.ticket_description)
     .setRequired(true)
-    .setMaxLength(4096);
+    .setMaxLength(4000);
 
   modal.addComponents(new ActionRowBuilder().addComponents(input));
   await interaction.showModal(modal);
@@ -210,7 +210,7 @@ async function handleDescModal(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -241,7 +241,7 @@ async function handleImageModal(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -271,7 +271,7 @@ async function handleEmojiModal(interaction, client) {
   await safeUpdateSetup(interaction, {
     content: '',
     embeds: [buildSetupEmbed(draft)],
-    components: [buildSetupMenu()],
+    components: [buildSetupButtons(), buildSetupMenu()],
   });
 }
 
@@ -292,7 +292,7 @@ async function finishSetup(interaction, client) {
     return interaction.update({
       content: `❌ **Missing required fields:** ${missing.join(', ')}\n\nPlease configure them before finishing setup.`,
       embeds: [buildSetupEmbed(draft)],
-      components: [buildSetupMenu()],
+      components: [buildSetupButtons(), buildSetupMenu()],
     });
   }
 
@@ -313,9 +313,9 @@ async function finishSetup(interaction, client) {
         const oldChannel = interaction.guild.channels.cache.get(existing.ticket_channel_id);
         if (oldChannel) {
           const oldMsg = await oldChannel.messages.fetch(existing.panel_message_id).catch(() => null);
-          if (oldMsg) await oldMsg.delete().catch(() => {});
+          if (oldMsg) await oldMsg.delete().catch(() => { });
         }
-      } catch {}
+      } catch { }
     }
 
     // Send the panel embed
@@ -325,10 +325,10 @@ async function finishSetup(interaction, client) {
     }
 
     const panelEmbed = new EmbedBuilder()
-      .setTitle(draft.ticket_title)
+      .setAuthor({ name: draft.ticket_title, iconURL: interaction.guild.iconURL({ dynamic: true }) })
       .setDescription(draft.ticket_description)
       .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
       .setTimestamp();
 
     if (draft.ticket_image) {
@@ -338,8 +338,8 @@ async function finishSetup(interaction, client) {
     const panelButton = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('ticket_create')
-        .setLabel('Create Ticket')
-        .setStyle(ButtonStyle.Primary)
+        .setLabel('Open a Ticket')
+        .setStyle(ButtonStyle.Secondary)
         .setEmoji(draft.ticket_emoji),
     );
 
@@ -392,4 +392,7 @@ module.exports = {
   handleDescModal,
   handleImageModal,
   handleEmojiModal,
+  showTitleModal,
+  showDescModal,
+  showImageModal,
 };
