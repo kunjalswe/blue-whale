@@ -31,7 +31,7 @@ const categoryNames = {
 };
 
 const THEME_COLOR = 0x2B2D31; // Blur / Dark Aesthetic
-const SUPPORT_LINK = "https://discord.gg/PPEEZAUUW";
+const SUPPORT_LINK = "https://discord.gg/PPEEZAUUWT";
 const INVITE_LINK = "https://discord.com/oauth2/authorize?client_id=1493187478792962108&permissions=8&integration_type=0&scope=applications.commands+bot";
 
 async function sendGeneralHelp(interaction, client) {

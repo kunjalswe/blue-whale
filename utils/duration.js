@@ -39,7 +39,7 @@ function parseDuration(input) {
  */
 function formatDuration(ms) {
   if (ms < 1000) return '0s';
-  
+
   const seconds = Math.floor(ms / 1000);
   const w = Math.floor(seconds / 604800);
   const d = Math.floor((seconds % 604800) / 86400);
@@ -53,7 +53,7 @@ function formatDuration(ms) {
   if (h > 0) parts.push(`${h}h`);
   if (m > 0) parts.push(`${m}m`);
   if (s > 0) parts.push(`${s}s`);
-  
+
   return parts.join(' ');
 }
 
