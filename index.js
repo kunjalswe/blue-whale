@@ -22,7 +22,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 for (const folder of commandFolders) {
   const commandsPath = path.join(foldersPath, folder);
   if (!fs.statSync(commandsPath).isDirectory()) continue;
-  
+
   const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
   for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
@@ -38,9 +38,20 @@ for (const folder of commandFolders) {
   }
 }
 
-client.once("ready", async () => {
-  client.user.setActivity("/help", { type: ActivityType.Listening });
+let statusInterval;
+function updateStatus(client) {
+  const serverCount = client.guilds.cache.size;
+  client.user.setActivity(`/help • ${serverCount} servers`, { type: ActivityType.Watching });
+}
+
+client.on("ready", async () => {
+  updateStatus(client);
   console.log(`Logged in as ${client.user.tag}`);
+
+  // Refresh status every 15 minutes to keep it visible
+  if (!statusInterval) {
+    statusInterval = setInterval(() => updateStatus(client), 15 * 60 * 1000);
+  }
 
   const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
   try {
@@ -89,6 +100,9 @@ client.on("interactionCreate", async (interaction) => {
     }
   }
 });
+
+client.on("guildCreate", () => updateStatus(client));
+client.on("guildDelete", () => updateStatus(client));
 
 const count = require("./commands/minigames/count.js");
 if (count.init) count.init(client);
