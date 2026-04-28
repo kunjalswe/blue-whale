@@ -1,5 +1,6 @@
 const { WebhookClient, EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
 const { getDB } = require("../../Database/database.js");
+const cache = require("../../utils/cache.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -27,6 +28,8 @@ module.exports = {
       if (!server) return interaction.reply({ content: "❌ No counting channel is set.", ephemeral: true });
       
       await db.run('DELETE FROM count WHERE guildId = ?', [guildId]);
+      // Update cache
+      cache.delete(`count:${guildId}`);
       return interaction.reply("✅ Counting channel removed.");
     }
     
@@ -37,9 +40,13 @@ module.exports = {
       if (server) return interaction.reply({ content: "❌ Counting is already enabled in this server.", ephemeral: true });
       
       await db.run(
-        'INSERT INTO count (guildId, channelId, count, webhookId, webhookToken) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO count (guildId, channelId, messageCount, webhookId, webhookToken) VALUES (?, ?, ?, ?, ?)',
         [guildId, channel.id, 0, null, null]
       );
+      
+      // Update cache
+      const serverData = await db.get('SELECT * FROM count WHERE guildId = ?', [guildId]);
+      cache.set(`count:${guildId}`, serverData);
       
       const embed = new EmbedBuilder()
         .setTitle("🔢 Counting Enabled")
@@ -52,20 +59,30 @@ module.exports = {
     client.on("messageCreate", async (message) => {
       if (!message.guild || message.author.bot) return;
       
-      const db = await getDB().catch(() => null);
-      if (!db) return;
-      
-      const server = await db.get('SELECT * FROM count WHERE guildId = ?', [message.guild.id]);
+      const guildId = message.guild.id;
+
+      // Check if guild has counting enabled (CACHED)
+      const server = await cache.getOrSet(`count:${guildId}`, async () => {
+        const db = await getDB();
+        return await db.get('SELECT * FROM count WHERE guildId = ?', [guildId]);
+      });
+
       if (!server) return;
       if (message.channel.id !== server.channelId) return;
       
       const content = message.content.trim();
       const number = Number(content);
       if (isNaN(number)) return message.delete().catch(() => {});
-      if (number !== server.count + 1) return message.delete().catch(() => {});
+      if (number !== server.messageCount + 1) return message.delete().catch(() => {});
       
-      await db.run('UPDATE count SET count = ? WHERE guildId = ?', [number, message.guild.id]);
+      // Update DB
+      const db = await getDB();
+      await db.run('UPDATE count SET messageCount = ? WHERE guildId = ?', [number, guildId]);
       
+      // Update Cache immediately
+      server.messageCount = number;
+      cache.set(`count:${guildId}`, server);
+
       try {
         const channel = message.channel;
         let webhook;
@@ -79,8 +96,12 @@ module.exports = {
           }
           await db.run(
             'UPDATE count SET webhookId = ?, webhookToken = ? WHERE guildId = ?',
-            [webhook.id, webhook.token, message.guild.id]
+            [webhook.id, webhook.token, guildId]
           );
+          // Update cache with webhook info
+          server.webhookId = webhook.id;
+          server.webhookToken = webhook.token;
+          cache.set(`count:${guildId}`, server);
         }
         await message.delete().catch(() => {});
         const displayName = message.member ? message.member.displayName : message.author.username;

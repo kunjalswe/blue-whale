@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { getDB } = require('../../Database/database.js');
+const cache = require('../../utils/cache.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -33,11 +34,13 @@ module.exports = {
           await db.run('INSERT INTO mediaonly (guildId, channelId) VALUES (?, ?)', [guildId, channelId]);
         }
         
+        // Update cache
+        cache.set(`mediaonly:${guildId}:${channelId}`, true);
+
         const embed = new EmbedBuilder()
           .setTitle('Media-Only Enabled')
           .setColor(0x3498DB)
           .setDescription(`This channel has been set to **media-only**. Messages without attachments will be automatically deleted. Admins can bypass this restriction.`)
-          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -49,11 +52,13 @@ module.exports = {
       try {
         await db.run('DELETE FROM mediaonly WHERE guildId = ? AND channelId = ?', [guildId, channelId]);
         
+        // Update cache
+        cache.delete(`mediaonly:${guildId}:${channelId}`);
+
         const embed = new EmbedBuilder()
           .setTitle('Media-Only Disabled')
           .setColor(0x3498DB)
           .setDescription(`This channel is no longer restricted to media-only.`)
-          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -68,23 +73,28 @@ module.exports = {
     client.on('messageCreate', async (message) => {
       if (message.author.bot || !message.guild) return;
 
-      // Check if user is admin
-      if (message.member && message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-        return; // Admins bypass
+      const guildId = message.guild.id;
+      const channelId = message.channel.id;
+
+      // Check if user is admin (Bypass)
+      if (message.member && (message.member.permissions.has(PermissionsBitField.Flags.Administrator) || message.member.permissions.has(PermissionsBitField.Flags.ManageGuild))) {
+        return;
       }
 
       // Check if message has attachments
       if (message.attachments.size > 0) {
-        return; // It's media, allow it
+        return;
       }
 
-      // If no attachments, check if channel is media-only
+      // If no attachments, check if channel is media-only (CACHED)
       try {
-        const db = await getDB();
-        const existing = await db.get('SELECT * FROM mediaonly WHERE guildId = ? AND channelId = ?', [message.guild.id, message.channel.id]);
+        const isMediaOnly = await cache.getOrSet(`mediaonly:${guildId}:${channelId}`, async () => {
+          const db = await getDB();
+          const row = await db.get('SELECT * FROM mediaonly WHERE guildId = ? AND channelId = ?', [guildId, channelId]);
+          return !!row;
+        });
         
-        if (existing) {
-          // It's a media-only channel and message has no attachments, so delete it
+        if (isMediaOnly) {
           await message.delete().catch(() => {});
         }
       } catch (error) {

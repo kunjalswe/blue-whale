@@ -1,9 +1,9 @@
 const { PermissionsBitField } = require('discord.js');
-const { getDB } = require('../../Database/database.js');
+const { getDB } = require('../../../Database/database.js');
 
 async function run(interaction) {
   const db = await getDB();
-  const user = interaction.options.getUser('user');
+  const newName = interaction.options.getString('name');
 
   // Verify this channel is a ticket
   const ticket = await db.get(
@@ -22,21 +22,16 @@ async function run(interaction) {
     (config && interaction.member.roles.cache.has(config.support_role_id));
 
   if (!isSupportOrAdmin) {
-    return interaction.reply({ content: '❌ You do not have permission to remove users from this ticket.', ephemeral: true });
+    return interaction.reply({ content: '❌ You do not have permission to rename this ticket.', ephemeral: true });
   }
 
-  // Don't allow removing the ticket owner
-  if (user.id === ticket.owner_id) {
-    return interaction.reply({ content: '❌ You cannot remove the ticket owner.', ephemeral: true });
-  }
-
-  // Remove user from the channel
   try {
-    await interaction.channel.permissionOverwrites.delete(user.id);
-    return interaction.reply({ content: `✅ <@${user.id}> has been removed from this ticket.` });
+    const sanitized = newName.toLowerCase().replace(/[^a-z0-9-]/g, '-').substring(0, 100);
+    await interaction.channel.setName(sanitized);
+    return interaction.reply({ content: `✅ Ticket renamed to **${sanitized}**.` });
   } catch (err) {
-    console.error('[Ticket Remove] Error:', err);
-    return interaction.reply({ content: '❌ Failed to remove the user from this ticket.', ephemeral: true });
+    console.error('[Ticket Rename] Error:', err);
+    return interaction.reply({ content: '❌ Failed to rename the ticket channel.', ephemeral: true });
   }
 }
 

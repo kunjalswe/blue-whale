@@ -132,4 +132,26 @@ if (autorole.init) autorole.init(client);
 const { getDB } = require("./Database/database.js");
 getDB().then(() => console.log("Connected to SQLite Database!")).catch(console.error);
 
+// ───── GRACEFUL SHUTDOWN ─────
+const shutdown = async (signal) => {
+  console.log(`\n[SHUTDOWN] Received ${signal}. Closing bot safely...`);
+  
+  if (statusInterval) clearInterval(statusInterval);
+  
+  try {
+    const db = await getDB();
+    await db.close();
+    console.log("✅ Database connection closed.");
+  } catch (err) {
+    console.warn("⚠️ Warning: Database was already closed or couldn't be closed.");
+  }
+
+  client.destroy();
+  console.log("👋 Bot logged out. Goodbye!");
+  process.exit(0);
+};
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+
 client.login(process.env.DISCORD_TOKEN);

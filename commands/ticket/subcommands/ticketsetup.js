@@ -5,7 +5,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
-const { getDB } = require('../../Database/database.js');
+const { getDB } = require('../../../Database/database.js');
 
 // In-memory draft storage keyed by `guildId-userId`
 const setupDrafts = new Map();

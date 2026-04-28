@@ -1,5 +1,5 @@
-const { getDB } = require('../../Database/database.js');
-const { clearGiveawayTimer } = require('../../utils/giveaway.js');
+const { getDB } = require('../../../Database/database.js');
+const { clearGiveawayTimer } = require('../../../utils/giveaway.js');
 
 async function run(interaction) {
   const messageId = interaction.options.getString('message_id');

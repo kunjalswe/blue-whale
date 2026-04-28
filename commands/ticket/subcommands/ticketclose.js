@@ -6,8 +6,8 @@ const {
   PermissionsBitField,
   AttachmentBuilder,
 } = require('discord.js');
-const { getDB } = require('../../Database/database.js');
-const { generateTranscript, buildSummaryEmbed } = require('../../utils/transcript.js');
+const { getDB } = require('../../../Database/database.js');
+const { generateTranscript, buildSummaryEmbed } = require('../../../utils/transcript.js');
 
 /**
  * /ticket close — asks for confirmation, then closes the ticket.

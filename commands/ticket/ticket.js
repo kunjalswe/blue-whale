@@ -69,19 +69,19 @@ module.exports = {
 
     switch (sub) {
       case 'setup':
-        return require('./ticketsetup.js').run(interaction, client);
+        return require('./subcommands/ticketsetup.js').run(interaction, client);
       case 'add':
-        return require('./ticketadd.js').run(interaction, client);
+        return require('./subcommands/ticketadd.js').run(interaction, client);
       case 'remove':
-        return require('./ticketremove.js').run(interaction, client);
+        return require('./subcommands/ticketremove.js').run(interaction, client);
       case 'rename':
-        return require('./ticketrename.js').run(interaction, client);
+        return require('./subcommands/ticketrename.js').run(interaction, client);
       case 'close':
-        return require('./ticketclose.js').run(interaction, client);
+        return require('./subcommands/ticketclose.js').run(interaction, client);
       case 'config':
-        return require('./ticketconfig.js').run(interaction, client);
+        return require('./subcommands/ticketconfig.js').run(interaction, client);
       case 'reset':
-        return require('./ticketreset.js').run(interaction, client);
+        return require('./subcommands/ticketreset.js').run(interaction, client);
     }
   },
 

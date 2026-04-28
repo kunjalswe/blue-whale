@@ -5,7 +5,7 @@ const {
   ButtonStyle,
   PermissionsBitField,
 } = require('discord.js');
-const { getDB } = require('../../Database/database.js');
+const { getDB } = require('../../../Database/database.js');
 
 async function run(interaction) {
   // Admin-only

@@ -1,10 +1,10 @@
-const { getDB } = require('../../Database/database.js');
+const { getDB } = require('../../../Database/database.js');
 const {
   parseDuration,
   buildGiveawayEmbed,
   buildGiveawayButtons,
   scheduleGiveaway,
-} = require('../../utils/giveaway.js');
+} = require('../../../utils/giveaway.js');
 
 async function run(interaction, client) {
   const prize = interaction.options.getString('prize');

@@ -120,19 +120,19 @@ module.exports = {
 
     switch (sub) {
       case 'start':
-        return require('./giveawaystart.js').run(interaction, client);
+        return require('./subcommands/giveawaystart.js').run(interaction, client);
       case 'config':
-        return require('./giveawayconfig.js').run(interaction, client);
+        return require('./subcommands/giveawayconfig.js').run(interaction, client);
       case 'pause':
-        return require('./giveawaypause.js').run(interaction, client);
+        return require('./subcommands/giveawaypause.js').run(interaction, client);
       case 'resume':
-        return require('./giveawayresume.js').run(interaction, client);
+        return require('./subcommands/giveawayresume.js').run(interaction, client);
       case 'end':
-        return require('./giveawayend.js').run(interaction, client);
+        return require('./subcommands/giveawayend.js').run(interaction, client);
       case 'reroll':
-        return require('./giveawayreroll.js').run(interaction, client);
+        return require('./subcommands/giveawayreroll.js').run(interaction, client);
       case 'delete':
-        return require('./giveawaydelete.js').run(interaction, client);
+        return require('./subcommands/giveawaydelete.js').run(interaction, client);
     }
   },
 

@@ -7,8 +7,8 @@ const {
   PermissionsBitField,
 } = require('discord.js');
 const { getDB } = require('../../../Database/database.js');
-const { closeTicket } = require('../ticketclose.js');
-const { executeReset } = require('../ticketreset.js');
+const { closeTicket } = require('../subcommands/ticketclose.js');
+const { executeReset } = require('../subcommands/ticketreset.js');
 
 // ─────────────────────────────────────────────────────
 //  CREATE TICKET — panel button

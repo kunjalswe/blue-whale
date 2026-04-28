@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 
 const { getDB } = require("../../Database/database.js");
+const cache = require("../../utils/cache.js");
 
 module.exports = {
   category: "automod",
@@ -92,6 +93,10 @@ module.exports = {
           [guildId]
         );
 
+        // Update cache after successful DB write
+        const currentConfig = await db.get(`SELECT * FROM antilink_config WHERE guildId = ?`, [guildId]);
+        cache.set(`antilink_config:${guildId}`, currentConfig);
+
         return interaction.reply({
           content: "✅ Anti-link enabled",
           ephemeral: true,
@@ -105,6 +110,10 @@ module.exports = {
            ON CONFLICT(guildId) DO UPDATE SET enabled = 0`,
           [guildId]
         );
+
+        // Update cache after successful DB write
+        const currentConfig = await db.get(`SELECT * FROM antilink_config WHERE guildId = ?`, [guildId]);
+        cache.set(`antilink_config:${guildId}`, currentConfig);
 
         return interaction.reply({
           content: "❌ Anti-link disabled",
@@ -128,6 +137,10 @@ module.exports = {
             [guildId, target.id, type]
           );
 
+          // Update cache
+          const currentWhitelist = await db.all(`SELECT * FROM antilink_whitelist WHERE guildId = ?`, [guildId]);
+          cache.set(`antilink_whitelist:${guildId}`, currentWhitelist);
+
           return interaction.reply({
             content: `✅ Added ${target}`,
             ephemeral: true,
@@ -146,6 +159,10 @@ module.exports = {
            WHERE guildId = ? AND targetId = ?`,
           [guildId, target.id]
         );
+
+        // Update cache
+        const currentWhitelist = await db.all(`SELECT * FROM antilink_whitelist WHERE guildId = ?`, [guildId]);
+        cache.set(`antilink_whitelist:${guildId}`, currentWhitelist);
 
         return interaction.reply({
           content: `🗑️ Removed ${target}`,
@@ -199,6 +216,10 @@ module.exports = {
           [guildId, value ? 1 : 0, value ? 1 : 0]
         );
 
+        // Update cache
+        const currentConfig = await db.get(`SELECT * FROM antilink_config WHERE guildId = ?`, [guildId]);
+        cache.set(`antilink_config:${guildId}`, currentConfig);
+
         return interaction.reply({
           content: `Admin bypass: ${value ? "ON" : "OFF"}`,
           ephemeral: true,
@@ -213,13 +234,13 @@ module.exports = {
       if (!message.guild || message.author.bot) return;
 
       const content = message.content.toLowerCase();
-      const db = await getDB();
+      const guildId = message.guild.id;
 
-      // 🚨 STEP 1: Blacklisted words
-      const blacklistedWords = await db.all(
-        'SELECT word FROM automod_blacklist WHERE guild_id = ?',
-        [message.guild.id]
-      );
+      // 🚨 STEP 1: Blacklisted words (CACHED)
+      const blacklistedWords = await cache.getOrSet(`blacklist:${guildId}`, async () => {
+        const db = await getDB();
+        return await db.all('SELECT word FROM automod_blacklist WHERE guild_id = ?', [guildId]);
+      }) || [];
 
       if (blacklistedWords.length > 0) {
         const foundWord = blacklistedWords.find(b =>
@@ -227,10 +248,11 @@ module.exports = {
         );
 
         if (foundWord) {
-          const config = await db.get(
-            `SELECT * FROM antilink_config WHERE guildId = ?`,
-            [message.guild.id]
-          );
+          // Check config (CACHED)
+          const config = await cache.getOrSet(`antilink_config:${guildId}`, async () => {
+            const db = await getDB();
+            return await db.get(`SELECT * FROM antilink_config WHERE guildId = ?`, [guildId]);
+          });
 
           const isAdmin =
             message.member.permissions.has(PermissionsBitField.Flags.Administrator) ||
@@ -259,26 +281,21 @@ module.exports = {
 
       // 🚫 STEP 2: Detect ALL links (including Discord invites)
       const hasLink = /(https?:\/\/|www\.)[^\s]+/i.test(content);
-
       if (!hasLink) return;
 
-      // 🚨 STEP 3: Detect Discord invites (NOW BLOCKED TOO)
-      const isInvite =
-        /(discord\.gg\/|discord\.com\/invite|discordapp\.com\/invite)/i.test(content);
-
-      // config check
-      const config = await db.get(
-        `SELECT * FROM antilink_config WHERE guildId = ?`,
-        [message.guild.id]
-      );
+      // config check (CACHED)
+      const config = await cache.getOrSet(`antilink_config:${guildId}`, async () => {
+        const db = await getDB();
+        return await db.get(`SELECT * FROM antilink_config WHERE guildId = ?`, [guildId]);
+      });
 
       if (!config || config.enabled === 0) return;
 
-      // whitelist check
-      const whitelist = await db.all(
-        `SELECT * FROM antilink_whitelist WHERE guildId = ?`,
-        [message.guild.id]
-      );
+      // whitelist check (CACHED)
+      const whitelist = await cache.getOrSet(`antilink_whitelist:${guildId}`, async () => {
+        const db = await getDB();
+        return await db.all(`SELECT * FROM antilink_whitelist WHERE guildId = ?`, [guildId]);
+      }) || [];
 
       const isWhitelisted = whitelist.some((w) => {
         if (w.type === "user") return w.targetId === message.author.id;
