@@ -14,13 +14,13 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle("Server Members")
-      .setColor(0x2B2D31)
+      .setColor(0x3498DB)
       .addFields(
         { name: "Humans", value: `${humans}`, inline: true },
         { name: "Bots", value: `${bots}`, inline: true },
         { name: "Total", value: `${total}`, inline: true }
       )
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });

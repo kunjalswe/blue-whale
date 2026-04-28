@@ -8,8 +8,8 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("Support the Bot")
       .setDescription("Support us by voting on these platforms:")
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     const row = new ActionRowBuilder().addComponents(

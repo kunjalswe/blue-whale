@@ -168,7 +168,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle("Anti-Link Whitelist")
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(
             rows
               .map((r) =>
@@ -178,7 +178,7 @@ module.exports = {
               )
               .join("\n")
           )
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" });
+          
 
         return interaction.reply({
           embeds: [embed],

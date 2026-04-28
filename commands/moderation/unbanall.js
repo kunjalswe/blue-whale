@@ -28,7 +28,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('Unban All Complete')
         .setDescription(`Successfully unbanned **${count}** users.`)
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .setFooter({ text: `Moderator: ${interaction.user.tag}` })
         .setTimestamp();
 

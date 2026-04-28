@@ -43,7 +43,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle("📊 Bot & VPS Status")
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .addFields(
           {
             name: "🏓 Latency",
@@ -71,7 +71,7 @@ module.exports = {
             inline: false,
           }
         )
-        .setFooter({ text: "Modern • Blur Aesthetic System Panel" })
+
         .setTimestamp();
 
       await interaction.editReply({

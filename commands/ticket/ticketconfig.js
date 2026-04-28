@@ -14,7 +14,7 @@ async function run(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('Ticket Configuration')
-    .setColor(0x2B2D31)
+    .setColor(0x3498DB)
     .addFields(
       { name: 'Support Role', value: config.support_role_id ? `<@&${config.support_role_id}>` : '`Not set`', inline: true },
       { name: 'Ticket Channel', value: config.ticket_channel_id ? `<#${config.ticket_channel_id}>` : '`Not set`', inline: true },
@@ -26,7 +26,7 @@ async function run(interaction) {
       { name: '📂 Category', value: config.ticket_category_id ? `<#${config.ticket_category_id}>` : '`Not set`', inline: true },
       { name: '📨 Panel Message', value: config.panel_message_id ? `\`${config.panel_message_id}\`` : '`Not sent`', inline: true },
     )
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    
     .setTimestamp();
 
   // Count open tickets

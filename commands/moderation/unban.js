@@ -29,7 +29,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle('User Unbanned')
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .addFields(
           { name: 'User', value: `${bannedUser.user.tag}`, inline: true }
         )

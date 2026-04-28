@@ -34,7 +34,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Warning Removed')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`Successfully deleted warning \`${warningId}\` from ${user}.`)
           .setFooter({ text: `Moderator: ${interaction.user.tag}` })
           .setTimestamp();
@@ -55,7 +55,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Latest Warning Removed')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`Successfully deleted the latest warning from ${user}.`)
           .setFooter({ text: `Moderator: ${interaction.user.tag}` })
           .setTimestamp();

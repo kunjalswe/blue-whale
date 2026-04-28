@@ -59,7 +59,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('User Warned')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .addFields(
             { name: 'User', value: `${user.tag}`, inline: true },
             { name: 'Reason', value: reason, inline: true },
@@ -92,9 +92,9 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setTitle(`Warnings for ${user.tag}`)
           .setDescription(`Total Warnings: **${warnings.length}**`)
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setThumbnail(user.displayAvatarURL())
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         const warningsList = warnings.map((w, index) => {

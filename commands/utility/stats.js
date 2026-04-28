@@ -33,8 +33,8 @@ module.exports = {
         { name: "Users", value: `\`${userCount}\``, inline: true },
         { name: "Node.js", value: `\`${process.version}\``, inline: true }
       )
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     await interaction.editReply({ content: null, embeds: [embed] });

@@ -24,8 +24,8 @@ module.exports = {
         { name: "Joined Server", value: member ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>` : "N/A", inline: true },
         { name: "User ID", value: `\`${user.id}\``, inline: true }
       )
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });

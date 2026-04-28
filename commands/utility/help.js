@@ -30,7 +30,7 @@ const categoryNames = {
   giveaway: "Giveaway",
 };
 
-const THEME_COLOR = 0x2B2D31; // Blur / Dark Aesthetic
+const THEME_COLOR = 0x3498DB; // Blue Theme
 const SUPPORT_LINK = "https://discord.gg/PPEEZAUUWT";
 const INVITE_LINK = "https://discord.com/oauth2/authorize?client_id=1493187478792962108&permissions=8&integration_type=0&scope=applications.commands+bot";
 
@@ -49,7 +49,7 @@ async function sendGeneralHelp(interaction, client) {
     .setTitle("Help Menu")
     .setDescription("Select a category from the dropdown below to view available commands.\nUse `/help <command>` for detailed info about a specific command.")
     .setThumbnail(client.user.displayAvatarURL())
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" });
+    
 
   const sortedCategories = Object.keys(categories).sort((a, b) => {
     const order = ["utility", "moderation", "automod", "ticket", "giveaway", "fun", "minigames"];

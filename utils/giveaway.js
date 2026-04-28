@@ -72,8 +72,8 @@ function buildGiveawayEmbed(giveaway, ended = false) {
         `**Host:** <@${giveaway.host_id}>\n` +
         `**Entries:** ${participants.length}`
       )
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
   }
 
@@ -88,8 +88,8 @@ function buildGiveawayEmbed(giveaway, ended = false) {
         `**Entries:** ${participants.length}\n\n` +
         `⏸️ *This giveaway is currently paused.*`
       )
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
   }
 
@@ -103,8 +103,8 @@ function buildGiveawayEmbed(giveaway, ended = false) {
       `**Entries:** ${participants.length}\n\n` +
       `Click the button below to enter!`
     )
-    .setColor(0x2B2D31)
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    .setColor(0x3498DB)
+    
     .setTimestamp();
 }
 

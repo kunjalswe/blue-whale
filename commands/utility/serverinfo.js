@@ -37,8 +37,8 @@ module.exports = {
         { name: "Boosts", value: `Tier ${guild.premiumTier} (${guild.premiumSubscriptionCount} Boosts)`, inline: true },
         { name: "Server ID", value: `\`${guild.id}\``, inline: true }
       )
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });

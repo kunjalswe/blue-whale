@@ -26,7 +26,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle('Messages Purged')
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .addFields(
           { name: 'Channel', value: `${interaction.channel}`, inline: true },
           { name: 'Amount', value: `${deleted.size}`, inline: true }

@@ -36,7 +36,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle('Nickname Updated')
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .addFields(
           { name: 'User', value: `${user.tag}`, inline: true },
           { name: 'New Nickname', value: newNickname || '*Reset to original*', inline: true }

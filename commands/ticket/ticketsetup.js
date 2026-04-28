@@ -42,14 +42,14 @@ function buildSetupEmbed(draft) {
   return new EmbedBuilder()
     .setAuthor({ name: 'Ticket System Setup', iconURL: 'https://cdn.dribbble.com/userupload/32130511/file/original-a5ae53cfdc4bf822c6e5afc90f4c8660.png?resize=752x&vertical=center' })
     .setDescription('Configure your ticket system using the menu below. Once finished, click **Finish Setup** to deploy the panel.')
-    .setColor(0x2B2D31)
+    .setColor(0x3498DB)
     .addFields(
       { name: '📂 Infrastructure', value: `**Category:** ${draft.ticket_category_id ? `<#${draft.ticket_category_id}>` : '`Not set`'}\n**Channel:** ${draft.ticket_channel_id ? `<#${draft.ticket_channel_id}>` : '`Not set`'}\n**Logs:** ${draft.log_channel_id ? `<#${draft.log_channel_id}>` : '`Not set`'}`, inline: false },
       { name: '👮 Staff Configuration', value: `**Support Role:** ${draft.support_role_id ? `<@&${draft.support_role_id}>` : '`Not set`'}`, inline: true },
       { name: '🎨 Appearance', value: `**Emoji:** ${draft.ticket_emoji}\n**Image:** ${draft.ticket_image ? `[View Image](${draft.ticket_image})` : '`None`'}`, inline: true },
       { name: '📝 Content', value: `**Title:** \`${draft.ticket_title}\`\n**Description:** \`${draft.ticket_description.length > 50 ? draft.ticket_description.substring(0, 47) + '...' : draft.ticket_description}\``, inline: false },
     )
-    .setFooter({ text: "Premium Ticket System • Modern Interface" })
+    .setFooter({ text: "Premium Ticket System" })
     .setTimestamp();
 }
 

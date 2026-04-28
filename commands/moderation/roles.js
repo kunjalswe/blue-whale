@@ -75,7 +75,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Role Added')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .addFields(
             { name: 'User', value: user.tag, inline: true },
             { name: 'Role', value: role.name, inline: true }
@@ -107,7 +107,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Role Removed')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .addFields(
             { name: 'User', value: user.tag, inline: true },
             { name: 'Role', value: role.name, inline: true }

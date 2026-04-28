@@ -327,7 +327,7 @@ async function finishSetup(interaction, client) {
     const panelEmbed = new EmbedBuilder()
       .setAuthor({ name: draft.ticket_title, iconURL: interaction.guild.iconURL({ dynamic: true }) })
       .setDescription(draft.ticket_description)
-      .setColor(0x2B2D31)
+      .setColor(0x3498DB)
       .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
       .setTimestamp();
 

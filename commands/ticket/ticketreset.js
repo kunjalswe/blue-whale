@@ -33,8 +33,8 @@ async function run(interaction) {
   const confirmEmbed = new EmbedBuilder()
     .setTitle('Reset Ticket System')
     .setDescription('Are you sure you want to reset the ticket system? This will delete the database configuration and the panel message.')
-    .setColor(0x2B2D31)
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    .setColor(0x3498DB)
+    
     .setTimestamp()
     .addFields(
       { name: '🎫 Open Tickets', value: `\`${openTickets.count}\``, inline: true },
@@ -60,7 +60,7 @@ async function run(interaction) {
     try {
       const expiredEmbed = EmbedBuilder.from(confirmEmbed)
         .setFooter({ text: 'This confirmation has expired.' })
-        .setColor(0x2B2D31);
+        .setColor(0x3498DB);
       await interaction.editReply({ embeds: [expiredEmbed], components: [] });
     } catch {}
   }, 30_000);
@@ -111,8 +111,8 @@ async function executeReset(interaction, client) {
     const successEmbed = new EmbedBuilder()
       .setTitle('Ticket System Reset')
       .setDescription('The ticket system has been completely reset.')
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     await interaction.editReply({ embeds: [successEmbed], components: [] });

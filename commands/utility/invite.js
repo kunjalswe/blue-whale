@@ -12,8 +12,8 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('Invite Bot')
       .setDescription('Click the buttons below to invite the bot or join our support server.')
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" });
+      .setColor(0x3498DB)
+      
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()

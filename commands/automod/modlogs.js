@@ -39,9 +39,9 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Modlogs Configured')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`All moderation actions will now be logged in ${channel}.`)
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -62,9 +62,9 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setTitle('Modlogs Removed')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription('Moderation actions will no longer be logged.')
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });

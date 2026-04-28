@@ -40,8 +40,8 @@ async function run(interaction) {
   const confirmEmbed = new EmbedBuilder()
     .setTitle('Close Ticket')
     .setDescription('Are you sure you want to close this ticket? A transcript will be generated and the channel will be deleted.')
-    .setColor(0x2B2D31)
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    .setColor(0x3498DB)
+    
     .setTimestamp();
 
   const row = new ActionRowBuilder().addComponents(
@@ -73,8 +73,8 @@ async function closeTicket(interaction, client) {
   const closingEmbed = new EmbedBuilder()
     .setTitle('Closing Ticket...')
     .setDescription('Generating transcript, please wait...')
-    .setColor(0x2B2D31)
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    .setColor(0x3498DB)
+    
     .setTimestamp();
 
   await interaction.editReply({ embeds: [closingEmbed], components: [] });
@@ -108,8 +108,8 @@ async function closeTicket(interaction, client) {
       const dmEmbed = new EmbedBuilder()
         .setTitle('Ticket Closed')
         .setDescription(`Your ticket in **${interaction.guild.name}** has been closed by <@${interaction.user.id}>.`)
-        .setColor(0x2B2D31)
-        .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+        .setColor(0x3498DB)
+        
         .setTimestamp();
       await owner.send({ embeds: [dmEmbed] }).catch(() => {});
     } catch {}

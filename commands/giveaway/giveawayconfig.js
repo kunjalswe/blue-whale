@@ -23,14 +23,14 @@ async function run(interaction) {
 
     const embed = new EmbedBuilder()
       .setTitle('Giveaway Configuration')
-      .setColor(0x2B2D31)
+      .setColor(0x3498DB)
       .addFields(
         { name: 'Channel', value: config.giveaway_channel_id ? `<#${config.giveaway_channel_id}>` : '`Not set`', inline: true },
         { name: 'Required Role', value: config.required_role_id ? `<@&${config.required_role_id}>` : '`None`', inline: true },
         { name: 'Bypass Role', value: config.bypass_role_id ? `<@&${config.bypass_role_id}>` : '`None`', inline: true },
         { name: 'Manager Role', value: config.manager_role_id ? `<@&${config.manager_role_id}>` : '`None`', inline: true },
       )
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      
       .setTimestamp();
 
     return interaction.reply({ embeds: [embed], ephemeral: true });
@@ -57,14 +57,14 @@ async function run(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('Giveaway Configuration Updated')
-    .setColor(0x2B2D31)
+    .setColor(0x3498DB)
     .addFields(
       { name: 'Channel', value: newChannel ? `<#${newChannel}>` : '`Not set`', inline: true },
       { name: 'Required Role', value: newRequired ? `<@&${newRequired}>` : '`None`', inline: true },
       { name: 'Bypass Role', value: newBypass ? `<@&${newBypass}>` : '`None`', inline: true },
       { name: 'Manager Role', value: newManager ? `<@&${newManager}>` : '`None`', inline: true },
     )
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    
     .setTimestamp();
 
   await interaction.reply({ embeds: [embed], ephemeral: true });

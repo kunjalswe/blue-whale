@@ -35,9 +35,9 @@ module.exports = {
         
         const embed = new EmbedBuilder()
           .setTitle('Media-Only Enabled')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`This channel has been set to **media-only**. Messages without attachments will be automatically deleted. Admins can bypass this restriction.`)
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });
@@ -51,9 +51,9 @@ module.exports = {
         
         const embed = new EmbedBuilder()
           .setTitle('Media-Only Disabled')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`This channel is no longer restricted to media-only.`)
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });

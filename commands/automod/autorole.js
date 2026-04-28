@@ -75,12 +75,12 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle('Autorole Configuration')
         .setDescription('New members will automatically receive these roles:')
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .addFields({ 
           name: 'Roles', 
           value: roles.map(r => `<@&${r.role_id}>`).join('\n') 
         })
-        .setFooter({ text: `Modern & Minimalistic • Limit: ${roles.length}/3` })
+        .setFooter({ text: `Limit: ${roles.length}/3` })
         .setTimestamp();
 
       return interaction.reply({ embeds: [embed], ephemeral: true });

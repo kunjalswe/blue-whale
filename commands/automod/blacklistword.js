@@ -35,9 +35,9 @@ module.exports = {
         
         const embed = new EmbedBuilder()
           .setTitle('Word Blacklisted')
-          .setColor(0x2B2D31)
+          .setColor(0x3498DB)
           .setDescription(`Successfully added \`${word}\` to the blacklist.`)
-          .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+          
           .setTimestamp();
 
         return interaction.reply({ embeds: [embed], ephemeral: true });
@@ -67,9 +67,9 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle('Word Removed')
-        .setColor(0x2B2D31)
+        .setColor(0x3498DB)
         .setDescription(`Successfully removed \`${word}\` from the blacklist.`)
-        .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+        
         .setTimestamp();
 
       return interaction.reply({ embeds: [embed], ephemeral: true });

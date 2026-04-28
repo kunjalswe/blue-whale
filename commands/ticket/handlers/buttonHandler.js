@@ -104,7 +104,7 @@ async function handleCreate(interaction, client) {
         { name: '🕒 Details', value: `**Opened At:** <t:${Math.floor(Date.now() / 1000)}:R>\n**Status:** 🟢 Open`, inline: true },
         { name: '📋 Instructions', value: 'Please explain your issue in detail. A staff member will be with you shortly. You can use the buttons below to manage this ticket.', inline: false }
       )
-      .setColor(0x2B2D31)
+      .setColor(0x3498DB)
       .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
       .setFooter({ text: 'Staff can claim this ticket below' })
       .setTimestamp();
@@ -245,7 +245,7 @@ async function handleCloseCancel(interaction) {
       new EmbedBuilder()
         .setTitle('❌ Close Cancelled')
         .setDescription('The ticket will remain open.')
-        .setColor(0x99AAB5)
+        .setColor(0x3498DB)
         .setTimestamp(),
     ],
     components: [],
@@ -268,7 +268,7 @@ async function handleResetCancel(interaction) {
       new EmbedBuilder()
         .setTitle('❌ Reset Cancelled')
         .setDescription('The ticket system was not changed.')
-        .setColor(0x99AAB5)
+        .setColor(0x3498DB)
         .setTimestamp(),
     ],
     components: [],

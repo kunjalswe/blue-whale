@@ -56,8 +56,8 @@ module.exports = {
         .setTitle(`Welcome ${member.user.displayName}!`)
         .setDescription(`Welcome to **${member.guild.name}**! Enjoy your stay.`)
         .setImage("https://i.pinimg.com/originals/8b/35/72/8b357283fd26e3bb18cc1983c0ebdb9c.gif")
-        .setColor(0x2B2D31)
-        .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+        .setColor(0x3498DB)
+        
         .setTimestamp();
         
       channel.send({ embeds: [embed] }).catch(()=>{});

@@ -14,8 +14,8 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle("Bot Uptime")
       .setDescription(`**${days}d ${hours}h ${minutes}m ${seconds}s**`)
-      .setColor(0x2B2D31)
-      .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+      .setColor(0x3498DB)
+      
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });

@@ -164,13 +164,13 @@ function escapeHTML(str) {
 function buildSummaryEmbed(ticket, closedBy, messageCount) {
   return new EmbedBuilder()
     .setTitle('Ticket Transcript')
-    .setColor(0x2B2D31)
+    .setColor(0x3498DB)
     .addFields(
       { name: 'Opened By', value: `<@${ticket.owner_id}>`, inline: true },
       { name: 'Closed By', value: `<@${closedBy}>`, inline: true },
       { name: 'Messages', value: `${messageCount}`, inline: true }
     )
-    .setFooter({ text: "Modern & Minimalistic • Blur Aesthetic" })
+    
     .setTimestamp();
 }
 
